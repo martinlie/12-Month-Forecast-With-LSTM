@@ -1,0 +1,12 @@
+# deepkit.yml
+#image: python-science:latest
+#files: 
+#  - *.py
+#output: *.h5
+label: Host/Local
+
+config:
+  batch_size: 6
+  dropout: 0.2
+  
+command: python forecast-with-lstm.py
