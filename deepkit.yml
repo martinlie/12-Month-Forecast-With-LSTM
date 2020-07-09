@@ -1,9 +1,8 @@
-# deepkit.yml
-#image: python-science:latest
-#files: 
-#  - *.py
-#output: *.h5
-label: Host/Local
+image: hummerfisker/python-science:latest
+
+files:
+  - forecast-with-lstm.py
+  - AirPassengers.csv
 
 config:
   batch_size: 6

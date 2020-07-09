@@ -47,11 +47,16 @@ generator = TimeseriesGenerator(train, train, length=n_input, batch_size=batch_s
 
 
 # %%
+# 1-d conv
+
 model = Sequential()
-model.add(LSTM(200, activation='relu', input_shape=(n_input, n_features)))
+model.add(LSTM(200, activation='relu', input_shape=(n_input, n_features))) #, return_sequences=True))
+#model.add(LSTM(200, activation='relu'))
 model.add(Dropout(experiment.floatconfig('dropout')))
 model.add(Dense(1))
-model.compile(optimizer='adam', loss='mse')
+model.compile(optimizer='adam', loss='mse') 
+# validation_split=0.33
+# #metrics=['accuracy', 'loss', 'val_accuracy', 'val_loss'],)
 
 experiment.watch_keras_model(model, model_input=next(iter(generator)), is_batch=True)
 deepkit_callback = experiment.create_keras_callback() 
@@ -78,13 +83,19 @@ df_test = pd.concat([df,df_predict], axis=1)
 
 
 # %%
-plt.figure(figsize=(20, 5))
-plt.plot(df_test.index, df_test['AirPassengers'])
-plt.plot(df_test.index, df_test['Prediction'], color='r')
-plt.legend(loc='best', fontsize='xx-large')
-plt.xticks(fontsize=18)
-plt.yticks(fontsize=16)
-plt.show()
+for (line_number, (index, row)) in enumerate(df_test.iterrows()):
+    experiment.log_metric('test', row['AirPassengers'], row['Prediction'], x=line_number)
+
+experiment.add_output_content('df_test.csv', df_test.to_csv())
+#experiment.log_insight(df_test.to_numpy(), name='results/test', meta='Test data', image_convertion=False)
+
+#plt.figure(figsize=(20, 5))
+#plt.plot(df_test.index, df_test['AirPassengers'])
+#plt.plot(df_test.index, df_test['Prediction'], color='r')
+#plt.legend(loc='best', fontsize='xx-large')
+#plt.xticks(fontsize=18)
+#plt.yticks(fontsize=16)
+#plt.show()
 
 
 # %%
