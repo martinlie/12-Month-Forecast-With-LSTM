@@ -1,0 +1,48 @@
+diff --git a/README.md b/README.md
+index a5053b5..23f1092 100644
+--- a/README.md
++++ b/README.md
+@@ -4,4 +4,10 @@
+ 
+ # Test image (optional)
+ 
+-    docker run --rm -i -t python-science:latest bash
+\ No newline at end of file
++    docker run --rm -i -t python-science:latest bash
++
++# References
++
++    [https://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/]
++
++    [https://machinelearningmastery.com/how-to-develop-convolutional-neural-network-models-for-time-series-forecasting/]
+\ No newline at end of file
+diff --git a/deepkit.yml b/deepkit.yml
+deleted file mode 100644
+index 03b0b51..0000000
+--- a/deepkit.yml
++++ /dev/null
+@@ -1,11 +0,0 @@
+-image: hummerfisker/python-science:latest
+-
+-files:
+-  - forecast-with-lstm.py
+-  - AirPassengers.csv
+-
+-config:
+-  batch_size: 6
+-  dropout: 0.2
+-  
+-command: python forecast-with-lstm.py
+\ No newline at end of file
+diff --git a/forecast-with-lstm.py b/forecast-with-lstm.py
+index 19bc3b8..776606f 100644
+--- a/forecast-with-lstm.py
++++ b/forecast-with-lstm.py
+@@ -17,6 +17,7 @@ import deepkit
+ 
+ experiment = deepkit.experiment()
+ experiment.add_file(__file__)
++experiment.add_label('keras', 'lstm')
+ 
+ warnings.filterwarnings("ignore")
+ 

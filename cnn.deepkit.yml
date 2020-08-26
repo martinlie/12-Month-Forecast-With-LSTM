@@ -1,0 +1,11 @@
+image: hummerfisker/python-science:latest
+
+files:
+  - forecast-with-cnn.py
+  - AirPassengers.csv
+
+config:
+  batch_size: 6
+  dropout: 0.2
+  
+command: python forecast-with-cnn.py

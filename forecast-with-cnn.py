@@ -8,16 +8,14 @@ import matplotlib.pyplot as plt
 from statsmodels.tools.eval_measures import rmse
 from sklearn.preprocessing import MinMaxScaler
 from keras.preprocessing.sequence import TimeseriesGenerator
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
-from keras.layers import Dropout
+from keras.models import *
+from keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Flatten
 import warnings
 import deepkit
 
 experiment = deepkit.experiment()
 experiment.add_file(__file__)
-experiment.add_label('keras', 'lstm')
+experiment.add_label('keras', 'cnn')
 
 warnings.filterwarnings("ignore")
 
@@ -51,9 +49,10 @@ generator = TimeseriesGenerator(train, train, length=n_input, batch_size=batch_s
 # 1-d conv
 
 model = Sequential()
-model.add(LSTM(200, activation='relu', input_shape=(n_input, n_features))) #, return_sequences=True))
-#model.add(LSTM(200, activation='relu'))
+model.add(Conv1D(filters=64, kernel_size=4, activation='relu', input_shape=(n_input, n_features)))
+model.add(MaxPooling1D(pool_size=2))
 model.add(Dropout(experiment.floatconfig('dropout')))
+model.add(Flatten())
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse') 
 # validation_split=0.33
