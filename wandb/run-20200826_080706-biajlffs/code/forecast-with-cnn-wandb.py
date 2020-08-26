@@ -12,7 +12,6 @@ from keras.models import *
 from keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Flatten
 import warnings
 import wandb
-import os
 from wandb.keras import WandbCallback
 wandb.init(project="forecast-with-cnn")
 
@@ -105,4 +104,6 @@ pred_actual_rmse = rmse(df_test.iloc[-n_input:, [0]], df_test.iloc[-n_input:, [1
 print("rmse: ", pred_actual_rmse)
 wandb.log({'rmse': pred_actual_rmse})
 #experiment.log_metric('rmse', pred_actual_rmse)
+
+exit()
 

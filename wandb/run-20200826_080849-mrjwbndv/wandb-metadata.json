@@ -1,0 +1,24 @@
+{
+    "root": "/Users/martin/Dropbox/Prosjekter/12-Month-Forecast-With-LSTM",
+    "program": "forecast-with-cnn-wandb.py",
+    "git": {
+        "remote": "git@github.com:martinlie/12-Month-Forecast-With-LSTM.git",
+        "commit": "4becc7cadde7728a784ab051a3443108f859e668"
+    },
+    "email": "martin@martinlie.net",
+    "codePath": "forecast-with-cnn-wandb.py",
+    "startedAt": "2020-08-26T06:08:50.082051",
+    "host": "MacBook-Air.local",
+    "username": "martin",
+    "executable": "/usr/local/opt/python/bin/python3.7",
+    "os": "Darwin-19.6.0-x86_64-i386-64bit",
+    "python": "3.7.7",
+    "cpu_count": 4,
+    "args": [],
+    "state": "finished",
+    "jobType": null,
+    "mode": "run",
+    "project": "forecast-with-cnn",
+    "heartbeatAt": "2020-08-26T06:09:11.685320",
+    "exitcode": 0
+}

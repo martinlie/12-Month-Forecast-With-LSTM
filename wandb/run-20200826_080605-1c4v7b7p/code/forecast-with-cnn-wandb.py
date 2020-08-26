@@ -12,7 +12,6 @@ from keras.models import *
 from keras.layers import Dense, LSTM, Dropout, Conv1D, MaxPooling1D, Flatten
 import warnings
 import wandb
-import os
 from wandb.keras import WandbCallback
 wandb.init(project="forecast-with-cnn")
 
@@ -105,4 +104,58 @@ pred_actual_rmse = rmse(df_test.iloc[-n_input:, [0]], df_test.iloc[-n_input:, [1
 print("rmse: ", pred_actual_rmse)
 wandb.log({'rmse': pred_actual_rmse})
 #experiment.log_metric('rmse', pred_actual_rmse)
+
+exit()
+
+# %%
+train = df
+
+
+# %%
+scaler.fit(train)
+train = scaler.transform(train)
+
+
+# %%
+n_input = 12
+n_features = 1
+generator = TimeseriesGenerator(train, train, length=n_input, batch_size=6)
+
+
+# %%
+model.fit_generator(generator,epochs=90)
+
+
+# %%
+pred_list = []
+
+batch = train[-n_input:].reshape((1, n_input, n_features))
+
+for i in range(n_input):   
+    pred_list.append(model.predict(batch)[0]) 
+    batch = np.append(batch[:,1:,:],[[pred_list[i]]],axis=1)
+
+
+# %%
+from pandas.tseries.offsets import DateOffset
+add_dates = [df.index[-1] + DateOffset(months=x) for x in range(0,13) ]
+future_dates = pd.DataFrame(index=add_dates[1:],columns=df.columns)
+
+
+# %%
+df_predict = pd.DataFrame(scaler.inverse_transform(pred_list),
+                          index=future_dates[-n_input:].index, columns=['Prediction'])
+
+df_proj = pd.concat([df,df_predict], axis=1)
+
+
+# %%
+plt.figure(figsize=(20, 5))
+plt.plot(df_proj.index, df_proj['AirPassengers'])
+plt.plot(df_proj.index, df_proj['Prediction'], color='r')
+plt.legend(loc='best', fontsize='xx-large')
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=16)
+plt.show()
+
 
